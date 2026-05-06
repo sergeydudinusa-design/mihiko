@@ -1,23 +1,20 @@
-[build]
-  publish = "public"
-  command = "node build.js"
+ [build]
+   publish = "public"
+   command = "node build.js"
 
-[[plugins]]
-  package = "@netlify/plugin-identity"
+ [[headers]]
+   for = "/admin/*"
+   [headers.values]
+     X-Frame-Options = "SAMEORIGIN"
+     X-Content-Type-Options = "nosniff"
 
-[[headers]]
-  for = "/admin/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-Content-Type-Options = "nosniff"
+ [[headers]]
+   for = "/*"
+   [headers.values]
+     X-Frame-Options = "SAMEORIGIN"
+     Referrer-Policy = "strict-origin-when-cross-origin"
 
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-
-[[redirects]]
-  from = "/admin"
-  to = "/admin/"
-  status = 301
+ [[redirects]]
+   from = "/admin"
+   to = "/admin/"
+   status = 301

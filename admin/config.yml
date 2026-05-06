@@ -1,0 +1,156 @@
+backend:
+  name: git-gateway
+  branch: main
+
+locale: ru
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+
+  # ─── НАСТРОЙКИ САЙТА ───────────────────────────
+  - name: "settings"
+    label: "⚙️ Настройки сайта"
+    files:
+      - name: "general"
+        label: "Общие настройки"
+        file: "content/settings.json"
+        fields:
+          - label: "SEO"
+            name: "seo"
+            widget: "object"
+            fields:
+              - { label: "Title страницы", name: "title", widget: "string", hint: "50–60 символов. Идеально: «Михико — доставка суши за 45 минут»" }
+              - { label: "Meta Description", name: "description", widget: "text", hint: "120–160 символов. Описание для поисковика." }
+              - { label: "OG Title (соцсети)", name: "og_title", widget: "string" }
+              - { label: "OG Description", name: "og_description", widget: "text" }
+              - { label: "Canonical URL", name: "canonical", widget: "string", default: "https://mihiko.ru/" }
+
+          - label: "Брендинг"
+            name: "brand"
+            widget: "object"
+            fields:
+              - { label: "Акцентный цвет", name: "accent", widget: "color", default: "#E63946" }
+              - { label: "Логотип (символ)", name: "logo_mark", widget: "string", default: "三" }
+              - { label: "Название бренда", name: "brand_name", widget: "string", default: "михико" }
+
+          - label: "Контакты"
+            name: "contacts"
+            widget: "object"
+            fields:
+              - { label: "Телефон", name: "phone", widget: "string", default: "8 800 123 45 67" }
+              - { label: "Email", name: "email", widget: "string", default: "hello@mihiko.ru" }
+              - { label: "Часы работы", name: "hours", widget: "string", default: "11:00 — 23:00 ежедневно" }
+
+          - label: "Hero-секция"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Бейдж", name: "badge", widget: "string", default: "Новое приложение · iOS и Android" }
+              - { label: "Заголовок H1 (строка 1)", name: "title_1", widget: "string", default: "Свежие роллы" }
+              - { label: "Заголовок H1 (строка 2, курсив + цвет)", name: "title_2", widget: "string", default: "в один тап" }
+              - { label: "Подзаголовок", name: "subtitle", widget: "text", default: "Скачайте приложение Михико и получите −15% на первый заказ. Кэшбэк 5% бонусами с каждого заказа. Доставка за 45 минут." }
+              - label: "Статистика"
+                name: "stats"
+                widget: "list"
+                fields:
+                  - { label: "Значение", name: "value", widget: "string" }
+                  - { label: "Описание", name: "label", widget: "string" }
+
+          - label: "Блок скачивания"
+            name: "download"
+            widget: "object"
+            fields:
+              - { label: "Заголовок (строка 1)", name: "title_1", widget: "string", default: "Первый заказ" }
+              - { label: "Заголовок (строка 2, курсив)", name: "title_2", widget: "string", default: "со скидкой −15%" }
+              - { label: "Описание", name: "subtitle", widget: "text" }
+              - { label: "Ссылка App Store", name: "appstore_url", widget: "string", default: "#" }
+              - { label: "Ссылка Google Play", name: "googleplay_url", widget: "string", default: "#" }
+
+          - label: "Подвал (Footer)"
+            name: "footer"
+            widget: "object"
+            fields:
+              - { label: "Описание компании", name: "description", widget: "text" }
+              - { label: "Copyright", name: "copyright", widget: "string", default: "© 2024 Михико. Все права защищены." }
+
+          - label: "Бегущая строка"
+            name: "marquee"
+            widget: "list"
+            label_singular: "Элемент"
+            field: { label: "Текст", name: "text", widget: "string" }
+
+  # ─── МЕНЮ ──────────────────────────────────────
+  - name: "menu"
+    label: "🍣 Меню"
+    label_singular: "Позиция"
+    folder: "content/menu"
+    create: true
+    slug: "{{fields.id}}-{{slug}}"
+    identifier_field: "name"
+    fields:
+      - { label: "ID (число)", name: "id", widget: "number" }
+      - { label: "Название", name: "name", widget: "string" }
+      - { label: "Состав (через · )", name: "sub", widget: "string" }
+      - { label: "Цена (₽)", name: "price", widget: "number" }
+      - { label: "Вес", name: "weight", widget: "string", default: "220 г" }
+      - label: "Тег"
+        name: "tag"
+        widget: "select"
+        options: ["Хит", "Новинка", "Острый", "Веган"]
+        required: false
+      - label: "Категория"
+        name: "cat"
+        widget: "select"
+        options: ["Классика", "Авторские", "Запечённые", "Острые", "Веганские"]
+      - { label: "Эмодзи", name: "emoji", widget: "string", default: "🍣", hint: "Одно эмодзи как иконка блюда" }
+      - { label: "Фото блюда", name: "image", widget: "image", required: false }
+      - { label: "Описание (для SEO)", name: "description", widget: "text", required: false }
+      - { label: "Доступно", name: "available", widget: "boolean", default: true }
+      - { label: "Порядок сортировки", name: "sort", widget: "number", default: 100 }
+
+  # ─── СЕТЫ ──────────────────────────────────────
+  - name: "sets"
+    label: "🎁 Сеты"
+    label_singular: "Сет"
+    folder: "content/sets"
+    create: true
+    identifier_field: "name"
+    fields:
+      - { label: "Название сета", name: "name", widget: "string" }
+      - { label: "Описание (кол-во кусочков)", name: "desc", widget: "string" }
+      - label: "Состав (список роллов)"
+        name: "rolls"
+        widget: "list"
+        field: { label: "Ролл", name: "roll", widget: "string" }
+      - { label: "Цена (₽)", name: "price", widget: "number" }
+      - { label: "Старая цена (₽)", name: "old_price", widget: "number" }
+      - { label: "Популярный (выделить)", name: "featured", widget: "boolean", default: false }
+      - { label: "Порядок", name: "sort", widget: "number", default: 100 }
+
+  # ─── ЛОКАЦИИ ───────────────────────────────────
+  - name: "locations"
+    label: "📍 Локации"
+    label_singular: "Город"
+    folder: "content/locations"
+    create: true
+    identifier_field: "city"
+    fields:
+      - { label: "Город", name: "city", widget: "string" }
+      - { label: "Адрес", name: "addr", widget: "string" }
+      - { label: "Часы работы", name: "hours", widget: "string" }
+      - { label: "Телефон", name: "phone", widget: "string" }
+      - { label: "Порядок", name: "sort", widget: "number", default: 100 }
+
+  # ─── FAQ ───────────────────────────────────────
+  - name: "faq"
+    label: "❓ FAQ"
+    label_singular: "Вопрос"
+    folder: "content/faq"
+    create: true
+    identifier_field: "question"
+    fields:
+      - { label: "Вопрос", name: "question", widget: "string" }
+      - { label: "Ответ", name: "answer", widget: "text" }
+      - { label: "Порядок", name: "sort", widget: "number", default: 100 }
